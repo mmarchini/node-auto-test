@@ -19,12 +19,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      # - name: "Save commit messages to file"
-        # run: |
-          # mkdir commits
-          # git rev-list PR_BASE..PR_HEAD | xargs -L1 -I{} bash -c "git show --pretty='format:%s%n%n%b' --no-patch {} > commits/{}"
-          # mv commits/* .
-      - name: "First commit message adheres to guidelines at <a href=\"https://goo.gl/p2fr5Q\">https://goo.gl/p2fr5Q</a>"
+      - name: Validate commit messages
         run: |
           echo "::add-matcher::.github/workflows/commit-lint-problem-matcher.json"
           git log --oneline PR_BASE..PR_HEAD | grep -v -e fixup -e squash | awk '{ print $1 }' |  xargs npx -q core-validate-commit --no-validate-metadata
